@@ -1,0 +1,6 @@
+1.500000	5.500000	Put content of movie subtitle *.srt file here.
+5.600000	15.153000	And this is another subtitle screen with \\ multiple lines. Separator will be used \\ as a connector in a single lined label.
+15.500000	17.000000	Then run the script.
+17.000000	27.345000	It's awesome.
+28.000000	43.000000	And will make the world a better place.
+43.200000	53.255000	Now you can try to import it as labels in Audacity.

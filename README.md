@@ -34,3 +34,7 @@ $ sudo easy_install pysrt
  - macOS (Tested)
  - Linux (Tested)
  - Windows (Didn't test, but shouldn't be a problem)
+
+## Reference
+ 
+  - <https://github.com/agermanidis/autosub>: Command-line utility for auto-generating subtitles for any video file (Google API)

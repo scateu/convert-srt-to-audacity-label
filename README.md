@@ -9,17 +9,21 @@ Multiple lines within a single SRT screen will be concatenated with `\\`.
 
 ## Installation
 
-[Python 2](https://www.python.org/downloads/) is needed.
+[Python 2/3](https://www.python.org/downloads/) is needed.
 
 ```bash
-$ sudo pip2 install pysrt  #Linux or macOS
+$ sudo pip install pysrt  #Linux or macOS
+
+# or..
+
+$ sudo easy_install pysrt
 ```
 
 ## Usage
 
-     $ python2 convert-srt-to-audacity-label.py  /path/to/your/srt-file.srt
+     $ python convert-srt-to-audacity-label.py  /path/to/your/srt-file.srt
 
-     $ python2 convert-srt-to-audacity-label.py demo.srt
+     $ python convert-srt-to-audacity-label.py demo.srt
      demo-LABELS.txt wrote.
 
 ## Platform

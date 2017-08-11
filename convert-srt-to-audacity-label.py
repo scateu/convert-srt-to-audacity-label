@@ -1,4 +1,7 @@
 #-*- coding:utf-8
+from __future__ import absolute_import
+from __future__ import division
+from __future__ import print_function
 import pysrt
 import argparse
 import codecs
@@ -20,4 +23,4 @@ for s in subs:
 
 output.close()
 
-print "%s wrote." % output_filename
+print("%s wrote." % output_filename)

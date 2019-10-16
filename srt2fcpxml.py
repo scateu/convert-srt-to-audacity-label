@@ -78,9 +78,3 @@ output.write(xmltail)
 output.close()
 
 print("%s wrote." % output_filename)
-
-
-##
-## TODO
-##
-## - [ ] add overlap

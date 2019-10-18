@@ -53,7 +53,7 @@ output.write(xmlheader)
 <asset-clip name="MyMovie3" ref="r2" offset="5s" start="15s" duration="5s" audioRole="SpeakerA" /> 
 """
 
-def srt_time_to_fcpx_time(s, fcp_scale=60000):
+def srt_time_to_fcpx_time(s, fcp_scale=441000):
     m_fcp_scale = int(fcp_scale / 1000)
     return s.hours * 60 * 60 * fcp_scale + s.minutes * 60 * fcp_scale + s.seconds * fcp_scale + s.milliseconds * m_fcp_scale
 
@@ -63,14 +63,14 @@ for i in range(len(subs)):
     end = srt_time_to_fcpx_time(s.end)
     duration = srt_time_to_fcpx_time(s.duration)
 
-    output.write("<asset-clip name=\"%s\" ref=\"r2\" offset=\"%d/60000s\" start=\"%d/60000s\" duration=\"%d/60000s\" audioRole=\"SpeakerA\" />\n"%(s.text.replace('\n',' \\\\ '), start, start, duration))
+    output.write("<asset-clip name=\"%s\" ref=\"r2\" offset=\"%d/441000s\" start=\"%d/441000s\" duration=\"%d/441000s\" audioRole=\"SpeakerA\" />\n"%(s.text.replace('\n',' \\\\ '), start, start, duration))
 
     assert(start+duration == end)
 
     if i != len(subs) - 1: 
         s_next = subs[i+1]  #Gap between two sentences
         duration_gap = srt_time_to_fcpx_time(s_next.start) - end
-        output.write("<asset-clip name=\"%s\" ref=\"r2\" offset=\"%d/60000s\" start=\"%d/60000s\" duration=\"%d/60000s\" audioRole=\"SpeakerA\" />\n"%("SPACE", end, end, duration_gap))
+        output.write("<asset-clip name=\"%s\" ref=\"r2\" offset=\"%d/441000s\" start=\"%d/441000s\" duration=\"%d/441000s\" audioRole=\"SpeakerA\" />\n"%("SPACE", end, end, duration_gap))
         assert(start+duration+duration_gap == srt_time_to_fcpx_time(s_next.start))
 #    code.interact(local=locals())
 

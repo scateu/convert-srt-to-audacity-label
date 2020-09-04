@@ -10,15 +10,14 @@ import code
 
 parser = argparse.ArgumentParser()
 parser.add_argument("filename", help="input srt file name")
+parser.add_argument("audio_filepath", help="audio asset filepath")
+
 args = parser.parse_args()
 
 subs = pysrt.open(args.filename, encoding='utf-8')
 
 output_filename = os.path.splitext(args.filename)[0]+'.fcpxml'
 output = codecs.open(output_filename, 'w', 'utf-8')
-
-
-
 
 xmlheader = """
 <fcpxml version="1.8">
@@ -29,13 +28,13 @@ xmlheader = """
     <!-- Resources -->
     <resources>
         <format id="r1" name="FFVideoFormat1080p25" />
-        <asset id="r2" src="file:///Users/scateu/repo/fcpxml/2019-09-22-lby.mp3" start="0s" duration="6240s" hasVideo="0" hasAudio="1" format="r1" audioSources="1" audioChannels="1" audioRate="44100" />
+        <asset id="r2" src="file://{audio_filepath}" start="0s" duration="6240s" hasVideo="0" hasAudio="1" format="r1" audioSources="1" audioChannels="1" audioRate="44100" />
     </resources>
     <project name="MyProjectWithMarkers">
         <!-- Project Story Elements -->
         <sequence format="r1">
             <spine>
-"""
+""".format(audio_filepath=os.path.abspath(args.audio_filepath))
 
 xmltail = """
             </spine>
@@ -63,16 +62,17 @@ for i in range(len(subs)):
     end = srt_time_to_fcpx_time(s.end)
     duration = srt_time_to_fcpx_time(s.duration)
 
-    output.write("<asset-clip name=\"%s\" ref=\"r2\" offset=\"%d/441000s\" start=\"%d/441000s\" duration=\"%d/441000s\" audioRole=\"SpeakerA\" />\n"%(s.text.replace('\n',' \\\\ '), start, start, duration))
+    #output.write("<asset-clip name=\"%s\" ref=\"r2\" offset=\"%d/441000s\" start=\"%d/441000s\" duration=\"%d/441000s\" audioRole=\"SpeakerA\" />\n"%(s.text.replace('\n',' \\\\ '), start, start, duration))
 
     assert(start+duration == end)
 
     if i != len(subs) - 1: 
         s_next = subs[i+1]  #Gap between two sentences
         duration_gap = srt_time_to_fcpx_time(s_next.start) - end
-        output.write("<asset-clip name=\"%s\" ref=\"r2\" offset=\"%d/441000s\" start=\"%d/441000s\" duration=\"%d/441000s\" audioRole=\"SpeakerA\" />\n"%("SPACE", end, end, duration_gap))
+        #output.write("<asset-clip name=\"%s\" ref=\"r2\" offset=\"%d/441000s\" start=\"%d/441000s\" duration=\"%d/441000s\" audioRole=\"SpeakerA\" />\n"%("SPACE", end, end, duration_gap))
         assert(start+duration+duration_gap == srt_time_to_fcpx_time(s_next.start))
 #    code.interact(local=locals())
+    output.write("<asset-clip name=\"%s\" ref=\"r2\" offset=\"%d/441000s\" start=\"%d/441000s\" duration=\"%d/441000s\" audioRole=\"SpeakerA\" />\n"%(s.text.replace('\n',' \\\\ '), start, start, duration+duration_gap))
 
 output.write(xmltail)
 output.close()
